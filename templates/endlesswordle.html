@@ -1,0 +1,286 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="contenu">
+    <a class="buttons volume" >Désactiver le Volume</a>
+    <h1><div id="chronotime" onload = "chronoStart()">00:00</div></h1>
+    <div class="texte">
+    <div class="result">
+
+    </div>
+    <div id ="score" class="score">
+        Votre Score est : 0
+    </div>
+    <div class="wordle_page">
+
+        <div class="explication">
+            <div class="card_effect">
+                Bienvenue dans notre jeu TelecoMotus ! <br>
+                Pour utiliser celui-ci, pas besoin de clic quelque part, tapez seulement sur votre clavier le mot désiré puis sur Entrée et le mot sera validé (ou non) par le jeu.
+            </div>
+        </div>
+        
+        <div class="div_wordle">   
+    <table class="grille_table grille table_wordle">
+        {% for i in range(nbessai) %}
+    <tr>
+        {% for j in range(taillemot) %}
+        <td class="mauvaisecase"><b>.</b></td>
+        {% endfor %}
+    </tr>
+        {% endfor %}
+
+    </table>
+    </div>
+    </div>
+    <div class="answer">
+
+    </div>
+    <div class="error">
+
+    </div>
+    <script language="JavaScript">
+
+
+
+
+        $( document ).ready(function() {
+            var startTime = 0
+            var start = 0
+            var end = 0
+            var diff = 0
+            var timerID = 0
+            tentative = [];
+            nbmotrouve = 0;
+            Lmottrouve = [];
+            toucheencours = 0;
+            mincompt = 2;
+            seccompt = 59;
+            var rand = Math.floor(Math.random()*{{ dico |safe }}.length);
+            motatrouve = {{ dico|safe }}[rand];
+            nbessai = {{ nbessai }};
+            gameencours = true;
+            volumer = true;
+            chronoStart()
+            $(this).keyup(function (event){
+                if (gameencours){
+                    if(event.keyCode == 13){
+                        tenta = '';
+                        for(i=tentative.length*motatrouve.length;i<toucheencours;i++){
+                            let lettre = $("td").eq(i).text();
+                            tenta = tenta  + lettre;
+
+                        }
+                        tenta = tenta.toLowerCase();
+                        if(entree(tenta,{{ dico |safe }},motatrouve.length)){
+                            let latentative=[];
+
+                            for(j=0;j<tenta.length;j++){
+                                validation(j,tenta,motatrouve,latentative);
+                            }
+                            validationfinale(tenta,motatrouve,latentative);
+                            tentative.push(latentative);
+                            let longeurtent = tentative.length;
+                            let longeurmotrouv = motatrouve.length;
+                            let indice = (longeurtent - 1)*longeurmotrouv;
+                            coloration(tentative,motatrouve,0,indice);
+
+
+
+                        }
+
+                    }
+                    else if(event.keyCode == 8){
+                        if(toucheencours- tentative.length*motatrouve.length >0){
+                            $("td").eq(toucheencours-1).text(String.fromCharCode(46));
+                            toucheencours = toucheencours - 1;
+                        }
+                    }
+                    else{
+                        if (toucheencours- tentative.length*motatrouve.length <motatrouve.length){
+                            $("td").eq(toucheencours).text(String.fromCharCode(event.keyCode));
+                            toucheencours = toucheencours + 1;
+                        }
+                    }
+                }
+
+            });
+            $(".volume").button({icons: {primary: "ui-icon-locked"}});
+            $(".volume").mousedown(function(){
+                if(volumer){
+                    volumer = false;
+                    $(this).text("Activer le volume");
+                }
+                else{
+                    volumer = true;
+                    $(this).text("Désactiver le volume");
+                }
+            })
+        });
+
+        function coloration(tentative,motatrouve,compteur,i){
+            let longeurmotatrouve = motatrouve.length;
+
+            let longeurtentative = tentative.length;
+            let dernieretentative = tentative[longeurtentative-1];
+
+            let son = new Audio();
+            if(dernieretentative[compteur][1]=="2"){
+                son.src = "{{url_for('static', filename='Son/bien.mp3')}}";
+                if (volumer){
+                    son.play();
+                }
+
+                $("td").eq(i).removeClass("mauvaisecase");
+                $("td").eq(i).addClass("bonnecase");
+            }
+            else if(dernieretentative[compteur][1]=="1"){
+                son.src = "{{url_for('static', filename='Son/moyen.mp3')}}";
+                if (volumer){
+                    son.play();
+                }
+
+                $("td").eq(i).removeClass("mauvaisecase");
+                $("td").eq(i).addClass("moyennecase");
+            }
+            else{
+                son.src = "{{url_for('static', filename='Son/mauvais.mp3')}}";
+                if(volumer){
+                   son.play();
+                }
+
+            }
+
+
+
+            if(i<longeurtentative*longeurmotatrouve -1){
+                console.log("heho");
+                setTimeout(coloration, 200,tentative,motatrouve,compteur+1,i+1);
+            }
+            else{
+                findepartie();
+            }
+
+        }
+function findepartie() {
+
+    if (gameencours == false) {
+        son = new Audio();
+        son.src = "{{url_for('static', filename='Son/motus-boule-noire.mp3')}}";
+        if (volumer) {
+            son.play();
+        }
+
+        $(".answer").html("</br> La partie est <u>terminée</u>. Le mot à trouver était : <b><u>"+motatrouve+"</u></b> <a class=\"buttons\" href = \"/endlesswordle\">Rejouer</a> <a class=\"buttons\" href = \"/historique\">Historique</a>");
+        $(".result").html("<h1>GAME OVER !</h1>");
+        Lnbmotrouve = [nbmotrouve];
+        $.ajax({
+            type: "POST",
+            url: "/endlesssave",
+            contentType: "application/json",
+            dataType: "JSON",
+            data: JSON.stringify(Lnbmotrouve)
+        })
+
+    }
+    else if (motvalid(tenta, motatrouve, tentative.length, nbessai) == "win") {
+        Lmottrouve.push(motatrouve);
+        tentative = [];
+        var rand = Math.floor(Math.random()*{{ dico |safe }}.length);
+        motatrouve = {{ dico|safe }}[rand];
+        toucheencours = 0;
+        nbmotrouve++;
+        mincompt++;
+        $(".score").text("Votre score est : "+nbmotrouve);
+        $("td").removeClass("bonnecase");
+        $("td").removeClass("moyennecase");
+        $("td").addClass("mauvaisecase");
+        $("td").text(".");
+        son = new Audio();
+        son.src = "{{url_for('static', filename='Son/victoire.mp3')}}";
+        if (volumer) {
+            son.play();
+        }
+
+
+    }
+    else if (motvalid(tenta, motatrouve, tentative.length, nbessai) == "loose") {
+        chronoStop()
+        gameencours = false;
+
+
+        son = new Audio();
+        son.src = "{{url_for('static', filename='Son/motus-boule-noire.mp3')}}";
+        if (volumer) {
+            son.play();
+        }
+
+        $(".answer").html("</br> La partie est <u>terminée</u>. Le mot à trouver était : <b><u>"+motatrouve+" </u></b> <a class=\"buttons\" href = \"/endlesswordle\">Rejouer</a> <a class=\"buttons\" href = \"/profile\">Profil</a>");
+        $(".result").html("<h1>GAME OVER !</h1>");
+        Lnbmotrouve = [nbmotrouve];
+        $.ajax({
+            type: "POST",
+            url: "/endlesssave",
+            contentType: "application/json",
+            dataType: "JSON",
+            data: JSON.stringify(Lnbmotrouve)
+        })
+
+
+    }
+}
+
+
+
+
+
+
+
+        function chrono(){
+	        end = new Date()
+	        diff = end - start
+	        diff = new Date(diff)
+	        var sec = seccompt - diff.getSeconds()
+	        var min = mincompt - diff.getMinutes()
+	        if (min < 10){
+	        	min = "0" + min
+	        }
+	        if (sec < 10){
+	        	sec = "0" + sec
+	        }
+            if (sec == 0 & min == 0){
+                gameencours = false;
+                chronoStop();
+                findepartie();
+            }
+	        document.getElementById("chronotime").innerHTML = min + ":" + sec
+            if (gameencours){
+                timerID = setTimeout("chrono()", 10)
+            }
+
+        }
+        function chronoStart(){
+	        start = new Date()
+	        chrono()
+        }
+        function chronoContinue(){
+	        start = new Date()-diff
+	        start = new Date(start)
+	        chrono()
+        }
+        function chronoReset(){
+	        document.getElementById("chronotime").innerHTML = "00:00"
+	        start = new Date()
+        }
+        function chronoStopReset(){
+	       document.getElementById("chronotime").innerHTML = "00:00"
+        }
+        function chronoStop(){
+	        clearTimeout(timerID)
+            end = diff.getSeconds() + 60*diff.getMinutes()
+        }
+
+    </script>
+</div>
+</div>
+{% endblock %}

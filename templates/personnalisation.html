@@ -1,0 +1,40 @@
+{% extends "template.html" %}
+
+{% block body %}
+
+<div class="contenu">
+    <div class="card_effect">
+        {% if session.identifiant %}
+        Tu es connecté en tant que {{ session.identifiant  }}. <a class="buttons" href = "/logout"> Déconnexion</a>
+        {% endif %}
+        <form action="/personnalisation" method = "post">
+            Nombres de lettres du mot à trouver :
+            <select name="nblettres" id="nblettres">
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select><br>
+            Nombres d'essais pour trouver le mot :
+            <select name="nbessais" id="nbessais">
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+            </select>
+            <input class="buttons" type="submit" value="Valider">
+        </form>
+    </div>
+    {% if prob %}
+        <b>Cet identifiant existe déjà.</b>
+    {% endif %}
+    {% if not(session.identifiant) %}
+        <a class="buttons" href="/login">Connectez vous pour sauvegarder votre partie</a>
+    {% endif %}
+
+</div>
+
+{% endblock %}

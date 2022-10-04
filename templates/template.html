@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="fr">
+    <head>
+        <title>TelecoMotus</title>
+        <link rel="stylesheet" href="{{url_for('static', filename='css/css.css')}}" />
+        <link rel="icon" type="image/png" href="{{url_for('static', filename='TelecoMotus.png')}}" />
+        <script type="text/javascript" src="{{url_for('static', filename='js/jquery.js')}}"></script>
+        <script type="text/javascript" src="{{url_for('static', filename='js/main.js')}}"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul class="navbar_links_list">
+                    <li class="navbar_links_list2"><a href="/"><img alt='TelecoMotus' src="{{url_for('static', filename='TelecoMotus.png')}}" width="162px" height="100px"></a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/" class="navbar_button">Accueil</a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/jeu_pers" class="navbar_button">Jeu</a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/endlesswordle" class="navbar_button">EndlessWordle</a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="https://telecomnancy.univ-lorraine.fr/" class="navbar_button">TelecomNancy</a></li>
+                    {% if session.identifiant %}
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/profile" class="navbar_button">Profil</a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/historique" class="navbar_button">Historique</a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/logout" class="navbar_button">Déconnexion</a></li>
+                    {% else %}
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/login" class="navbar_button">Se connecter</a></li>
+                    <li class="navbar_links_list2"><a class="navbar_links" href="/register" class="navbar_button">S'inscrire</a></li>
+                    {% endif  %}
+                    <li class="navbar_links_list2" style="float:right"><a class="navbar_links navbar_button" href="/bibliographie">Bibliographie</a></li>
+                </ul>
+            </nav>
+        </header>
+    {% block body %}{% endblock %}
+        <footer class="footer">
+            <div class="footer_left_column">
+                <a href="https://telecomnancy.univ-lorraine.fr/"><img class="logo_tn_footer" alt='TelecomNancy' src="{{url_for('static', filename='TelecomNancy.png')}}" width="204px" height="93px"></a>
+            </div>
+            <div class="footer_center_column">
+                <ul class="footer_center_list">
+                    <li><u>Concepteurs :</u></li>
+                    <li>Armand Bouveron</li>
+                    <li>Thibaut Cagnon</li>
+                    <li>Nicolas Garcia-Forest</li>
+                    <li>Baptiste Gheysens</li>
+                </ul>
+            </div>
+        </footer>
+    </body>
+</html>

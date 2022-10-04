@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+{% block body %}
+<div class="contenu">
+    <div class="card_effect">
+        <table class="table">
+        <tr>
+            <th class="table_header">Nom de la ressource</th>
+            <th class="table_header">Lien</th>
+            <th class="table_header">Contribution</th>
+        </tr>
+            {% for i in bibliographie %}
+        <tr class="table_line">
+        <td class="table_elements">{{ i[0] }}</td>
+        <td class="table_elements"><a href={{ i[1] }}>{{ i[1] }}</a></td>
+        <td class="table_elements">{{ i[2] }}</td>
+        </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

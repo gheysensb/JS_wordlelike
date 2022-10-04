@@ -1,0 +1,32 @@
+{% extends 'template.html' %}
+{% block body %}
+    <div class="contenu">
+    <div class="texte">
+    <div class="wordle_page">
+    <div class="div_wordle">   
+    <table class="grille_table grille table_wordle">
+        {% for i in Lpartie %}
+    <tr>
+        {% for j in i %}
+            {% if j[1] == '0' %}
+        <td class="mauvaisecase"><b>{{ j[0] }}</b></td>
+            {% elif j[1] == '1' %}
+            <td class="moyennecase"><b>{{ j[0] }}</b></td>
+            {% else %}
+            <td class="bonnecase"><b>{{ j[0] }}</b></td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+        {% endfor %}
+
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+
+
+
+
+
+{% endblock %}

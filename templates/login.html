@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="contenu">
+    <div class="card_effect">
+        Connexion :
+        <form action="/login" method = "post">
+            <input autocomplete="off" autofocus name="Identifiant" placeholder="Identifiant" type="text">
+            <input autocomplete="off" autofocus name="password" placeholder="Mot de passe" type="password">
+            <input class="buttons" type="submit" value="Valider">
+        </form>
+    </div>
+<a class="buttons" href="/register"> Inscris-toi ! </a>
+{% if prob %}
+    <b>Identifiant ou mot de passe non valide.</b>
+{% endif %}
+</div>
+{% endblock %}

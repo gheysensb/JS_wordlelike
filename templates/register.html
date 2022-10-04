@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="contenu">
+    <div class="card_effect">
+        Inscription :
+        <form action="/register" method = "post">
+            <input autocomplete="off" autofocus name="Identifiant" placeholder="Identifiant" type="text">
+            <input autocomplete="off" autofocus name="password" placeholder="Mot de passe" type="password">
+            <input class="buttons" type="submit" value="Valider">
+        </form>
+    </div>
+    {% if prob %}
+        <b>Cet identifiant existe déjà.</b>
+    {% endif %}
+    <a class="buttons" href="/login">Vous possédez déjà un compte ?</a>
+</div>
+{% endblock %}

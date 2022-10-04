@@ -1,0 +1,96 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="contenu">
+    <div class="center">
+        <div class="compte">
+
+            {% if session.identifiant %}
+            <h1>
+                {{ session.identifiant  }}
+                </h1>
+            {% else %}
+            <h1>
+                Connecte-toi pour voir tes statistiques.
+                </h1>
+            {% endif  %}
+        </div>
+        <div class="stats">
+        <table class="table_graphe_left">
+            <tr>
+                <th colspan=2 class="table_header_stats">Statistiques détaillées</th>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Nombre de parties jouées</td>
+                <td class="table_elements">{{nbgames}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Nombre de parties gagnées</td>
+                <td class="table_elements">{{wins}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Nombre de parties perdues</td>
+                <td class="table_elements">{{looses}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Temps de partie moyen</td>
+                <td class="table_elements">{{tmoy}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Meilleur temps de partie</td>
+                <td class="table_elements">{{tmin}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Nombre de tentatives moyennes par partie</td>
+                <td class="table_elements">{{trymoy}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Nombre de tentatives minimum pour une partie</td>
+                <td class="table_elements">{{best}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Nombre  de bonnes parties</td>
+                <td class="table_elements">{{niceperf}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Série de victoires actuelle</td>
+                <td class="table_elements">{{streak}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Meilleure série de victoires</td>
+                <td class="table_elements">{{maxstreak}}</td>
+            </tr>
+            <tr class="table_line">
+                <td class="table_elements">Meilleur score EndlessWordle</td>
+                <td class="table_elements">{{scoreend}}</td>
+            </tr>
+        </table>
+        </div>
+        <!-- <div class="stats">
+            <h1>Statistiques détaillées </h1>
+            <ul class="statistiques">
+                <li>Nombre de parties jouées : {{nbgames}}</li>
+                <li>Nombre de parties gagnées : {{wins}}</li>
+                <li>Nombre de parties perdues : {{looses}}</li>
+                <li>Temps de partie moyen : {{tmoy}}</li>
+                <li>Meilleur temps de partie : {{tmin}}</li>
+                <li>Nombre de tentatives moyennes par partie : {{trymoy}}</li>
+                <li>Nombre de tentatives minimum pour une partie : {{best}}</li>
+                <li>Nombre  de bonnes parties : {{niceperf}}</li>
+                <li>Série de victoires actuelle : {{streak}}</li>
+                <li>Meilleure série de victoires : {{maxstreak}}</li>
+            </ul> 
+        </div>-->
+        <div class="graphe_et_titre">
+            <table class="table_graphe_right">
+                <tr>
+                    <th class="table_header_stats">Statistiques globales</th>
+                </tr>
+            </table>
+            <!--<img class="img_graphe" src="{{url_for('static', filename='graphe.png')}}" alt="">-->
+            <div class="graphe_bg">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

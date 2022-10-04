@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+{% block body %}
+<div class="contenu">
+    <div class="card_effect">
+        <table class="table">
+        <tr>
+            <th class="table_header">Mot à trouver</th>
+            <th class="table_header">Date / Heure</th>
+            <th class="table_header">Essais</th>
+            <th class="table_header">Résultat</th>
+            <th class="table_header">Temps de partie (en s)</th>
+            <th class="table_header">Détails</th>
+        </tr>
+            {% for i in Lparty %}
+        <tr class="table_line">
+        <td class="table_elements">{{ i[2] }}</td>
+        <td class="table_elements">{{ i[3] }}</td>
+        <td class="table_elements">{{ i[6] }}</td>
+        <td class="table_elements">{{ i[7] }}</td>
+        <td class="table_elements">{{ i[9] }}</td>
+        <td class="table_elements"><a class="buttons" href = "/historique/détail/{{ i[0] }}">Détails</a></td>
+        </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

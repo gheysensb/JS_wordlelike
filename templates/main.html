@@ -1,0 +1,57 @@
+{% extends "template.html" %}
+
+{% block body %}
+<div class="contenu">
+    <!-- <div class="solo_txt">
+    {% if session.identifiant %}
+        Tu es connecté en tant que {{ session.identifiant  }}. <a class="buttons" href = "/logout"> Déconnexion</a>
+    {% else %}
+        Bienvenue, connecte-toi ! <a class="buttons" href = "/login">Connexion</a>
+    {% endif  %}
+    </div>-->
+
+    <div class="home_table">    
+        <div class="left_column_home">
+            <div class="card_effect">
+                <p><div class="title"><h2>PPII-2 TelecomNancy</h2></div></p>
+                <ul class="list_team_main">
+                    <li><u>Concepteurs :</u></li>
+                    <li>Armand Bouveron</li>
+                    <li>Thibaut Cagnon</li>
+                    <li>Nicolas Garcia-Forest</li>
+                    <li>Baptiste Gheysens</li>
+                </ul>
+                <div class="text_p">Le projet PPII-2 (Projet Pluridisciplinaire d'Informatique Intégrative) a pour but de concevoir une application similaire au jeu WORDLE, ainsi qu'un solveur capable de jouer à WORDLE.<br>WORDLE est un jeu semblable au célèbre MOTUS, animation télévisée diffusée de 1990 à 2019 en France.</div><br>
+                <div class="text_p">Des groupes de 4 ont ainsi été constitués dans la promo 2024 afin de réaliser cette application.<br>Les conditions du projet sont telles que l'application doit regrouper et faire interagir une interface web, une base de données, et utiliser Flask / Python comme pour le PPII-1.</div><br>
+                <div class="text_p">TelecomNancy est une grande école d'ingénieurs en informatique et sciences du numérique (cybersécurité, big data, intelligence articielle, internet des objets...).</div>
+            </div>
+            <div class="card_effect">
+                <img class="img_tn" src="{{url_for('static', filename='Facade_TN.png')}}" alt="TelecomNancy" style="width:100%">
+            </div>
+        </div>
+        <div class="center_column_home">
+            <div class="card_effect">
+            <div class="title"><h1>TelecoMotus, un remake du WORDLE</h1></div>
+            </div>
+            <div class="card_effect_motus">
+                <div class="motus_table">
+                    <div class="left_column_motus">
+                        <div class="text_motus">Le jeu WORDLE, semblable au MOTUS, a pour but de trouver un mot-solution prédéfini en soumettant tour à tour différents mots avec le même nombre de lettres.</div>
+                        <div class="text_motus">Le mode de jeu le plus connu, celui du WORDLE officiel, offre 6 essais pour trouver un mot de 5 lettres. Vous pouvez directement accéder à ce mode en cliquant sur le lien ci-dessous.</div>
+                        <div class=link_motus><h2><a class="link_motus" href="/wordle/5/6">Wordle Classic</a></h2></div>
+                        <div class="text_motus">Le mode de jeu pour les joueurs confirmés. Trouvez les mots proposés dans un temps limité. A chaque mot trouvé, vous gagnez un bonus de temps. La partie s'arrête quand le compteur arrive à 0. </div>
+                        <div class=link_motus><h2><a class="link_motus" href="/endlesswordle">EndlessWordle</a></h2></div>
+                        <div class="text_motus">Pensez également à vous connecter (ou à vous inscrire), afin de pouvoir voir votre historique de parties.</div>
+                        <div class=link_motus><h2><a class="link_motus" href="/login">Se connecter</a></h2></div>
+                        <div class=link_motus><h2><a class="link_motus" href="/register">S'inscrire</a></h2></div>
+                        <div class="text_motus">Une fois que vous êtes connecté, vous pouvez aussi voir votre profil. Vous pouvez y trouver des statistiques de jeu qui vous permettent de vous comparer aux autres joueurs..</div>
+                        <div class=link_motus><h2><a class="link_motus" href="/profile">Profil</a></h2></div>
+                        <div class="text_motus">Nous adressons aussi nos remerciements aux personnes et sites nous ayant aidé dans la bibliographie.</div>
+                        <div class=link_motus><h2><a class="link_motus" href="/bibliographie">Bibliographie</a></h2></div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
